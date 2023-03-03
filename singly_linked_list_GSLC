@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node
+{
+  int data;
+  struct Node* prev;
+  struct Node* next;
+};
+
+struct Node* head = NULL;
+struct Node* tail = NULL;
+
+void insert_at_beginning(int data) 
+{
+	struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
+	new_node->data = data;
+	new_node->prev = NULL;
+	new_node->next = head;
+	if (head != NULL) 
+	{
+		head->prev = new_node;
+	}
+	head = new_node;
+	if (tail == NULL) 
+	{
+    	tail = new_node;
+	}
+}
+
+void delete_at_beginning()
+{
+	if (head == NULL) 
+	{
+    	return;
+	}
+  struct Node* node_to_delete = head;
+  head = head->next;
+  if (head != NULL) 
+	{
+    	head->prev = NULL;
+	} 
+	else
+	{
+    	tail = NULL;
+	}
+	free(node_to_delete);
+}
+
+void display()
+{
+	struct Node* current = head;
+	while (current != NULL)
+	{
+		printf("%d ", current->data);
+		current = current->next;
+	}
+	printf("\n");
+}
+
+void main() 
+{
+	insert_at_beginning(3);
+	insert_at_beginning(2);
+	insert_at_beginning(1);
+	display(); // prints: 1 2 3
+	delete_at_beginning();
+	display(); // prints: 2 3
+}
